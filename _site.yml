@@ -1,0 +1,6 @@
+name: "idahjermitslev"
+navbar:
+  title: "Ida Hjermitslev"
+  left:
+    - text: "Home"
+      href: index.html
