@@ -6,6 +6,10 @@ navbar:
       href: index.html
     - text: "Resumé"
       href: CurriculumVitae.pdf
+  right:
+    - icon: fa-envelope
+      href: "mailto:ida.hjermitslev@duke.edu"
+    - icon: fa-google
 output_dir: "docs"
 output:
   html_document:
