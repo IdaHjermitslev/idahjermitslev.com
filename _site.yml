@@ -4,4 +4,9 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+    - text: "Resumé"
+      href: CurriculumVitae.pdf
 output_dir: "docs"
+output:
+  html_document:
+    css: styles.css
