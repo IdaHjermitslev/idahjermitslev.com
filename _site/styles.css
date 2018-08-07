@@ -1,0 +1,9 @@
+.profile {
+  padding-right: 1em;
+  padding-bottom: 1em;
+  float: left;
+}
+
+.profile img {
+  width: 200px;
+}
