@@ -10,6 +10,7 @@ navbar:
     - icon: fa-envelope
       href: "mailto:ida.hjermitslev@duke.edu"
     - icon: fa-google
+      href: "https://scholar.google.dk/citations?user=tgz3KD0AAAAJ&hl=da&oi=ao"
 output_dir: "docs"
 output:
   html_document:
