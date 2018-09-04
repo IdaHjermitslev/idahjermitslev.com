@@ -6,6 +6,8 @@ navbar:
       href: index.html
     - text: "Resumé"
       href: CurriculumVitae.pdf
+    - text: "Research"
+      href: research.html
   right:
     - icon: fa-envelope
       href: "mailto:ida.hjermitslev@duke.edu"
