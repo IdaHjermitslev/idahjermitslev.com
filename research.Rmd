@@ -1,5 +1,5 @@
 ---
-title: "Publications"
+title: "Research"
 output: html_document
 ---
 
@@ -7,11 +7,22 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Publications
+#### Hjermitslev, Ida B. (forthcoming) ["The electoral cost of coalition participation: Can anyone escape?"](http://journals.sagepub.com/doi/abs/10.1177/1354068818794216) *Party Politics*
 
-Hjermitslev, Ida B. (forthcoming) ["The electoral cost of coalition participation: Can anyone escape?"](http://journals.sagepub.com/doi/abs/10.1177/1354068818794216) *Party Politics*
+It is a well-established empirical finding that governments on average lose votes during their time in office. This exploratory analysis examines whether all members of coalition governments suffer the electoral cost of governing equally. Using electoral data from 20 parliamentary systems from 1961 to 2015, I compare the electoral performance of junior coalition members, the prime minister of a coalition, and single-party governments. Furthermore, I examine the conditioning effects of economic performance, legislative institutions as well as party ideology and size. I find that there are substantial differences in the electoral cost of governing for different types of coalition participation. The evidence suggests that the prime minister in a coalition is partially insulated from the penalties of government and thus should try to attract junior coalition members whenever possible.
   
   * [Data manipulation](files/ElectoralCostData.R)
   
   * [Empirical analysis](files/ElectoralCostAnalysis.R)
   
   
+## Working papers
+#### Political sophistication and coalition-based inferences about opposition parties
+
+Are voters’ perceptions of opposition parties altered by the formation of a coalition gov- ernment? Recent studies suggest that voters in multiparty systems use coalition information to make inferences about governing parties’ ideological positions. I argue that a similar mechanism applies to opposition parties, but that varying levels of political sophistication among voters will motivate different inferences due to fundamental differences in how vot- ers conceptualize the left-right. Using survey data from both the European Election Study 1989-2014 and the Comparative Study of Electoral Systems 1996-2016, I find that coalition formation has an impact on the perception of opposition parties that is comparable in size to that of coalition partners, but the direction is hugely contingent on the individual level of education, political interest and knowledge. Low sophisticates view all opposition parties as similar, while high sophisticates perceive opposition parties as different if divided by the current coalition government.
+
+#### Coalition-based Inferences about Positions on Economic, Moral and Cultural Issues
+
+Recent literature suggests that the distinction between parties in government and opposition may be the most important signal that structures voters’ perceptions of political parties’ positions and voters’ understanding of the political space more generally. Are coalition-based inferences evidence of categorization and short-cuts or suggestive of a deeper understanding of coalition formation among voters?  Do voters simply group parties into government and opposition and then move the members within each group closer to each other regardless of political issue in question? Or can coalition signals enable more sophisticated inferences too?
+In this paper, I examine whether voters recognize that some political issues might be driving coalition formation whereas others are largely unrelated. I rely on party placements from the Dutch Parliamentary Election Studies (1981-2012) and the Danish National Election Study (1994-2015). I examine dyadic distances between parties along 11 issue scales, including income equality, European unification, immigration, law and order, and the environment, as well as the left-right dimension. If the coalition-based inferences extend to economic, moral, and cultural issues, it would clearly suggest that these dimensions will become aligned in the perceptions of voters. 
