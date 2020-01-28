@@ -11,8 +11,12 @@ navbar:
   right:
     - icon: fa-envelope
       href: "mailto:ida.hjermitslev@duke.edu"
+    - icon: fa-university
+      href: "https://polisci.duke.edu/graduate/hire/ida-hjermitslev"
     - icon: fa-google
       href: "https://scholar.google.dk/citations?user=tgz3KD0AAAAJ&hl=da&oi=ao"
+    - icon: fa-github
+      href: "https://github.com/IdaHjermitslev"
 include:
   - files/*.R
 output_dir: "docs"
