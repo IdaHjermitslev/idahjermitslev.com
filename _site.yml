@@ -10,7 +10,7 @@ navbar:
       href: research.html
   right:
     - icon: fa-envelope
-      href: "mailto:ida.hjermitslev@duke.edu"
+      href: "mailto:ida.hjermitslev@univie.ac.at"
     - icon: fa-university
       href: "https://polisci.duke.edu/graduate/hire/ida-hjermitslev"
     - icon: fa-google
