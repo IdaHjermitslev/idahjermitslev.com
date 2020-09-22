@@ -7,4 +7,11 @@ output: html_document
 ![](Ida-small.jpg)
 </span>
 
-Ida Hjermitslev is a Ph.D. Candidate studying comparative political behavior. Her primary focus is on mass-elite linkages pertaining to political ideology and belief systems. Her dissertation explores the effects of coalition patterns on voters’ perceptions of party positions and policy space. Her research, including peer-reviewed work, combines insights from fields such as spatial party competition, coalition formation, public opinion, and survey methodology. Before coming to Duke, Ida graduated from the University of Copenhagen, Denmark, with a master’s degree in Political Science.   
+Welcome to my website!
+
+My name is Ida Hjermitslev and I am a university assistant/postdoctoral researcher at the Department of Government, University of Vienna, Austria. My research focuses on party competition and electoral behavior from a comparative perspective. I am broadly interested in representational linkages under parliamentary government, and especially interested in linkages that affect voters' political ideology and belief systems. I study questions such as how voters are perceiving and responding to elite cooperation and coalition formation.
+
+I earned my PhD in Political Science from Duke University, USA, in the summer 2020. My dissertation research explored the effects of coalition patterns on voters' perceptions of party positions and policy space. During my graduate education, I have also studied at the University of Copenhagen, UCLA and Aarhus University.
+
+During this winter term 2020, I will be teaching Quantitative Methods of Empirical Social Science 
+
