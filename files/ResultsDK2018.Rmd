@@ -1,0 +1,1339 @@
+---
+title: "Experiments 1 and 2"
+author: "Ida H"
+date: "1 2 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Read packages
+library(tidyverse)
+library(pwr)
+library(drake)
+library(arm)
+library(xtable)
+
+# Load data
+loadd(clean_data)
+```
+
+# TABLE 1 and TABLE 3: Sample sizes per treatment
+```{r}
+table(expData$party, expData$exp1)
+table(expData$direction1, expData$exp1)
+table(expData$direction, expData$exp2)
+```
+
+# TABLE 2: percent of participants who recall stimulus
+```{r}
+clean_data %>%
+  group_by(party, exp1) %>%
+  summarise(mean = mean(manipulation_correct, na.rm=TRUE)) %>%
+  ungroup
+```
+
+# TABLE 4: t.test
+```{r}
+# Calculate distances between parties
+expData <- clean_data %>%
+  mutate(
+    dist_VAL = abs(LR_V-LR_AL),
+    dist_VRV = abs(LR_V-LR_RV),
+    dist_VLA = abs(LR_V-LR_LA),
+    dist_VDF = abs(LR_V-LR_DF),
+    dist_immigration_VAL = abs(RF_V-RF_AL),
+    dist_immigration_VRV = abs(RF_V-RF_RV),
+    dist_immigration_VLA = abs(RF_V-RF_LA),
+    dist_immigration_VDF = abs(RF_V-RF_DF),
+    dist_economy_VAL = abs(PS_V-PS_AL),
+    dist_economy_VRV = abs(PS_V-PS_RV),
+    dist_economy_VLA = abs(PS_V-PS_LA),
+    dist_economy_VDF = abs(PS_V-PS_DF),
+    dist_green_VAL = abs(GR_V-GR_AL),
+    dist_green_VRV = abs(GR_V-GR_RV),
+    dist_green_VLA = abs(GR_V-GR_LA),
+    dist_green_VDF = abs(GR_V-GR_DF),
+    dist_crime_VAL = abs(LO_V-LO_AL),
+    dist_crime_VRV = abs(LO_V-LO_RV),
+    dist_crime_VLA = abs(LO_V-LO_LA),
+    dist_crime_VDF = abs(LO_V-LO_DF),
+  dist_partner = case_when(
+    party == "Radikale Venstre" ~ dist_VRV,
+    party == "Alternativet" ~ dist_VAL,
+    party == "Dansk Folkeparti" ~ dist_VDF,
+    party == "Liberal Alliance" ~ dist_VLA,
+  ),
+  dist_immigration_partner = case_when(
+    party == "Radikale Venstre" ~ dist_immigration_VRV,
+    party == "Alternativet" ~ dist_immigration_VAL,
+    party == "Dansk Folkeparti" ~ dist_immigration_VDF,
+    party == "Liberal Alliance" ~ dist_immigration_VLA,
+  ),
+  dist_economy_partner = case_when(
+    party == "Radikale Venstre" ~ dist_economy_VRV,
+    party == "Alternativet" ~ dist_economy_VAL,
+    party == "Dansk Folkeparti" ~ dist_economy_VDF,
+    party == "Liberal Alliance" ~ dist_economy_VLA,
+  ),
+  dist_green_partner = case_when(
+    party == "Radikale Venstre" ~ dist_green_VRV,
+    party == "Alternativet" ~ dist_green_VAL,
+    party == "Dansk Folkeparti" ~ dist_green_VDF,
+    party == "Liberal Alliance" ~ dist_green_VLA,
+  ),
+  dist_crime_partner = case_when(
+    party == "Radikale Venstre" ~ dist_crime_VRV,
+    party == "Alternativet" ~ dist_crime_VAL,
+    party == "Dansk Folkeparti" ~ dist_crime_VDF,
+    party == "Liberal Alliance" ~ dist_crime_VLA,
+  )) %>%
+  mutate(direction1 = case_when(
+    party == "Radikale Venstre" & exp1 != "control" | party == "Alternativet" & exp1 != "control"~ "left",
+    party == "Dansk Folkeparti" & exp1 != "control" | party == "Liberal Alliance" & exp1 != "control" ~ "right",
+    exp1 == "control" ~ "control"
+  ))
+
+expData %>%
+  filter(exp1 != "control") %>%
+  t.test(dist_partner ~ exp1, data=.)
+
+
+expData %>%
+  filter(exp1 != "control") %>%
+  t.test(dist_immigration_partner ~ exp1, data=.)
+
+
+
+expData %>%
+  filter(exp1 != "control") %>%
+  t.test(dist_economy_partner ~ exp1, data=.)
+
+
+
+expData %>%
+  filter(exp1 != "control") %>%
+  t.test(dist_green_partner ~ exp1, data=.)
+
+
+expData %>%
+  filter(exp1 != "control") %>%
+  t.test(dist_crime_partner ~ exp1, data=.)
+
+# Calculate N of smallest group
+expData %>%
+    filter(exp1 == "allerede har dannet" & is.na(dist_green_partner)==FALSE) %>%
+  nrow()
+
+pwr.t.test(n = 380, power = 0.80, sig.level = 0.05)
+```
+
+
+# APPENDIX D/Table 7: Distance between Liberals and partner
+
+```{r}
+
+# Regress the distance between AL and V on experimental treatment
+general_AL <- expData %>%
+  filter(party == "Alternativet" | exp1 == "control") %>%
+  lm(dist_VAL ~ exp1, data=.)
+
+expData %>%
+  filter(party == "Alternativet" & exp1 != "control") %>%
+  t.test(dist_VAL ~ exp1, data=.)
+
+# Regress the distance between RV and V on experimental treatment
+general_RV <- expData %>%
+  filter(party == "Radikale Venstre" | exp1 == "control") %>%
+  lm(dist_VRV ~ exp1, data=.)
+
+expData %>%
+  filter(party == "Radikale Venstre" & exp1 != "control") %>%
+  t.test(dist_VRV ~ exp1, data=.)
+
+# Regress the distance between LA and V on experimental treatment
+general_LA <- expData %>%
+  filter(party == "Liberal Alliance" | exp1 == "control") %>%
+  lm(dist_VLA ~ exp1, data=.)
+
+expData %>%
+  filter(party == "Liberal Alliance" & exp1 != "control") %>%
+  t.test(dist_VLA ~ exp1, data=.)
+
+# Regress the distance between DF and V on experimental treatment
+general_DF <- expData %>%
+  filter(party == "Dansk Folkeparti" | exp1 == "control") %>%
+  lm(dist_VDF ~ exp1, data=.)
+
+expData %>%
+  filter(party == "Dansk Folkeparti" & exp1 != "control") %>%
+  t.test(dist_VDF ~ exp1, data=.)
+
+
+# Power analysis
+pwr.t.test(n = 98, power = 0.80, sig.level = 0.05)
+
+```
+
+# FIGURE 1: Treatment effects on perceived distance on the general left-right
+
+In line with my expectations all parties seem to approaching the Liberals after it is announced that the Liberals has already formed a coalition with them. There is a highly significant effect for the ALternative, and weakly significant effects for the Radical Liberals, and the Danish People's Party. There is no significant treatment effect for the Liberal Alliance, which is less surprising given that the parties where already in government together at the time. There is no significant effect of the coalition refusal treatment.
+
+```{r}
+# Calculate confidence intervals by simulating observations
+sim_AL <- coef(sim(general_AL, n.sims = 10000)) %>% as_tibble()
+sim_RV <- coef(sim(general_RV, n.sims = 10000)) %>% as_tibble()
+sim_LA <- coef(sim(general_LA, n.sims = 10000)) %>% as_tibble()
+sim_DF <- coef(sim(general_DF, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "AL" = sim_AL,
+    "RV" = sim_RV,
+    "LA" = sim_LA,
+    "DF" = sim_DF,
+    .id = "party"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(difference = `exp1allerede har dannet` - `exp1umuligt kan danne`) %>%
+  dplyr::select(party, formation=`exp1allerede har dannet` , refusal= `exp1umuligt kan danne`, difference) %>%
+  tidyr::gather(key = "measure", value = "value", -party) %>%
+  mutate(measure = factor(measure, levels=c("formation", "refusal", "difference"))) %>%
+  group_by(party, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = party)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition",
+                         breaks=c("formation", "refusal", "difference"),
+                         labels=c("Coalition formation", "Coalition refusal", "Difference"))
+
+```
+
+# FIGURE 2: Treatment effects on perceived position of Liberals on various issues
+
+```{r}
+posLR_V <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_V ~ direction1, data=.)
+
+posRF_V <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(RF_V ~ direction1, data=.)
+
+posPS_V <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(PS_V ~ direction1, data=.)
+
+posGR_V <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(GR_V ~ direction1, data=.)
+
+posLO_V <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LO_V ~ direction1, data=.)
+
+# Simulate observations
+sim_general <- coef(sim(posLR_V, n.sims = 10000)) %>% as_tibble()
+sim_immigration <- coef(sim(posRF_V, n.sims = 10000)) %>% as_tibble()
+sim_economy <- coef(sim(posPS_V, n.sims = 10000)) %>% as_tibble()
+sim_environment <- coef(sim(posGR_V, n.sims = 10000)) %>% as_tibble()
+sim_crime <- coef(sim(posLO_V, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "General left/right" = sim_general,
+    "Immigration" = sim_immigration,
+    "Economy" = sim_economy,
+    "Environment" = sim_environment,
+    "Crime" = sim_crime,
+    .id = "direction1"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(Difference = direction1right - direction1left) %>%
+  dplyr::select(direction1, Left=direction1left , Right = direction1right, Difference) %>%
+  tidyr::gather(key = "measure", value = "value", -direction1) %>%
+  mutate(measure = factor(measure, levels=c("Left", "Right", "Difference")),
+         direction1 = factor(direction1, levels=c("General left/right", "Immigration", "Economy", "Crime", "Environment"))) %>%
+  group_by(direction1, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = direction1)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition")
+```
+
+
+
+# APPENDIX E/Figure 5: Treatment effects on other policy issues
+
+When it comes to immigration, the Radical Liberals are perceived as closer to the Liberals in the coalition formation treatment, and the Liberal Alliance is perceived as further apart in the coalition refusal treatment.
+```{r}
+# Regress the distance between AL and V on experimental treatment
+immigration_AL <- expData %>%
+  filter(party == "Alternativet" | exp1 == "control") %>%
+  lm(dist_immigration_VAL ~ exp1, data=.)
+
+# Regress the distance between RV and V on experimental treatment
+immigration_RV <- expData %>%
+  filter(party == "Radikale Venstre" | exp1 == "control") %>%
+  lm(dist_immigration_VRV ~ exp1, data=.)
+
+# Regress the distance between LA and V on experimental treatment
+immigration_LA <- expData %>%
+  filter(party == "Liberal Alliance" | exp1 == "control") %>%
+  lm(dist_immigration_VLA ~ exp1, data=.)
+
+# Regress the distance between DF and V on experimental treatment
+immigration_DF <- expData %>%
+  filter(party == "Dansk Folkeparti" | exp1 == "control") %>%
+  lm(dist_immigration_VDF ~ exp1, data=.)
+
+# Simulate observations
+sim_AL <- coef(sim(immigration_AL, n.sims = 10000)) %>% as_tibble()
+sim_RV <- coef(sim(immigration_RV, n.sims = 10000)) %>% as_tibble()
+sim_LA <- coef(sim(immigration_LA, n.sims = 10000)) %>% as_tibble()
+sim_DF <- coef(sim(immigration_DF, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "AL" = sim_AL,
+    "RV" = sim_RV,
+    "LA" = sim_LA,
+    "DF" = sim_DF,
+    .id = "party"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(difference = `exp1allerede har dannet` - `exp1umuligt kan danne`) %>%
+  dplyr::select(party, formation=`exp1allerede har dannet` , refusal= `exp1umuligt kan danne`, difference) %>%
+  tidyr::gather(key = "measure", value = "value", -party) %>%
+  mutate(measure = factor(measure, levels=c("formation", "refusal", "difference"))) %>%
+  group_by(party, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = party)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition",
+                         breaks=c("formation", "refusal", "difference"),
+                         labels=c("Coalition formation", "Coalition refusal", "Difference"))
+```
+
+Like with the immigration issue, there appears to be negative effects of the coalition formation treatment and positive effects of the coalition refusal treatment on the economic issue. The effect is only significant for the Radical Liberals in the coalition formation treatment.
+```{r}
+# Regress the distance between AL and V on experimental treatment
+economy_AL <- expData %>%
+  filter(party == "Alternativet" | exp1 == "control") %>%
+  lm(dist_economy_VAL ~ exp1, data=.)
+
+# Regress the distance between RV and V on experimental treatment
+economy_RV <- expData %>%
+  filter(party == "Radikale Venstre" | exp1 == "control") %>%
+  lm(dist_economy_VRV ~ exp1, data=.)
+
+# Regress the distance between LA and V on experimental treatment
+economy_LA <- expData %>%
+  filter(party == "Liberal Alliance" | exp1 == "control") %>%
+  lm(dist_economy_VLA ~ exp1, data=.)
+
+# Regress the distance between DF and V on experimental treatment
+economy_DF <- expData %>%
+  filter(party == "Dansk Folkeparti" | exp1 == "control") %>%
+  lm(dist_economy_VDF ~ exp1, data=.)
+
+# Simulate observations
+sim_AL <- coef(sim(economy_AL, n.sims = 10000)) %>% as_tibble()
+sim_RV <- coef(sim(economy_RV, n.sims = 10000)) %>% as_tibble()
+sim_LA <- coef(sim(economy_LA, n.sims = 10000)) %>% as_tibble()
+sim_DF <- coef(sim(economy_DF, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "AL" = sim_AL,
+    "RV" = sim_RV,
+    "LA" = sim_LA,
+    "DF" = sim_DF,
+    .id = "party"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(difference = `exp1allerede har dannet` - `exp1umuligt kan danne`) %>%
+  dplyr::select(party, formation=`exp1allerede har dannet` , refusal= `exp1umuligt kan danne`, difference) %>%
+  tidyr::gather(key = "measure", value = "value", -party) %>%
+  mutate(measure = factor(measure, levels=c("formation", "refusal", "difference"))) %>%
+  group_by(party, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = party)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition",
+                         breaks=c("formation", "refusal", "difference"),
+                         labels=c("Coalition formation", "Coalition refusal", "Difference"))
+```
+
+
+```{r}
+# Regress the distance between AL and V on experimental treatment
+green_AL <- expData %>%
+  filter(party == "Alternativet" | exp1 == "control") %>%
+  lm(dist_green_VAL ~ exp1, data=.)
+
+# Regress the distance between RV and V on experimental treatment
+green_RV <- expData %>%
+  filter(party == "Radikale Venstre" | exp1 == "control") %>%
+  lm(dist_green_VRV ~ exp1, data=.)
+
+# Regress the distance between LA and V on experimental treatment
+green_LA <- expData %>%
+  filter(party == "Liberal Alliance" | exp1 == "control") %>%
+  lm(dist_green_VLA ~ exp1, data=.)
+
+# Regress the distance between DF and V on experimental treatment
+green_DF <- expData %>%
+  filter(party == "Dansk Folkeparti" | exp1 == "control") %>%
+  lm(dist_green_VDF ~ exp1, data=.)
+
+# Simulate observations
+sim_AL <- coef(sim(green_AL, n.sims = 10000)) %>% as_tibble()
+sim_RV <- coef(sim(green_RV, n.sims = 10000)) %>% as_tibble()
+sim_LA <- coef(sim(green_LA, n.sims = 10000)) %>% as_tibble()
+sim_DF <- coef(sim(green_DF, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "AL" = sim_AL,
+    "RV" = sim_RV,
+    "LA" = sim_LA,
+    "DF" = sim_DF,
+    .id = "party"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(difference = `exp1allerede har dannet` - `exp1umuligt kan danne`) %>%
+  dplyr::select(party, formation=`exp1allerede har dannet` , refusal= `exp1umuligt kan danne`, difference) %>%
+  tidyr::gather(key = "measure", value = "value", -party) %>%
+  mutate(measure = factor(measure, levels=c("formation", "refusal", "difference"))) %>%
+  group_by(party, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = party)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition",
+                         breaks=c("formation", "refusal", "difference"),
+                         labels=c("Coalition formation", "Coalition refusal", "Difference"))
+```
+
+```{r}
+# Regress the distance between AL and V on experimental treatment
+crime_AL <- expData %>%
+  filter(party == "Alternativet" | exp1 == "control") %>%
+  lm(dist_crime_VAL ~ exp1, data=.)
+
+# Regress the distance between RV and V on experimental treatment
+crime_RV <- expData %>%
+  filter(party == "Radikale Venstre" | exp1 == "control") %>%
+  lm(dist_crime_VRV ~ exp1, data=.)
+
+# Regress the distance between LA and V on experimental treatment
+crime_LA <- expData %>%
+  filter(party == "Liberal Alliance" | exp1 == "control") %>%
+  lm(dist_crime_VLA ~ exp1, data=.)
+
+# Regress the distance between DF and V on experimental treatment
+crime_DF <- expData %>%
+  filter(party == "Dansk Folkeparti" | exp1 == "control") %>%
+  lm(dist_crime_VDF ~ exp1, data=.)
+
+# Simulate observations
+sim_AL <- coef(sim(crime_AL, n.sims = 10000)) %>% as_tibble()
+sim_RV <- coef(sim(crime_RV, n.sims = 10000)) %>% as_tibble()
+sim_LA <- coef(sim(crime_LA, n.sims = 10000)) %>% as_tibble()
+sim_DF <- coef(sim(crime_DF, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "AL" = sim_AL,
+    "RV" = sim_RV,
+    "LA" = sim_LA,
+    "DF" = sim_DF,
+    .id = "party"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(difference = `exp1allerede har dannet` - `exp1umuligt kan danne`) %>%
+  dplyr::select(party, formation=`exp1allerede har dannet` , refusal= `exp1umuligt kan danne`, difference) %>%
+  tidyr::gather(key = "measure", value = "value", -party) %>%
+  mutate(measure = factor(measure, levels=c("formation", "refusal", "difference"))) %>%
+  group_by(party, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = party)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition",
+                         breaks=c("formation", "refusal", "difference"),
+                         labels=c("Coalition formation", "Coalition refusal", "Difference"))
+```
+
+# APPENDIX F/Figure 6: Treatment effects on party placements
+
+```{r}
+posLR_EL <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_EL ~ direction1, data=.)
+
+posLR_SF <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_SF ~ direction1, data=.)
+
+posLR_AL <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_AL ~ direction1, data=.)
+
+posLR_SD <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_SD ~ direction1, data=.)
+
+posLR_RV <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_RV ~ direction1, data=.)
+
+posLR_K <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_K ~ direction1, data=.)
+
+posLR_DF <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_DF ~ direction1, data=.)
+
+posLR_LA <- expData %>%
+  filter(exp1 != "umuligt kan danne") %>%
+  lm(LR_LA ~ direction1, data=.)
+
+
+# Simulate observations
+sim_EL<- coef(sim(posLR_EL, n.sims = 10000)) %>% as_tibble()
+sim_SF <- coef(sim(posLR_SF, n.sims = 10000)) %>% as_tibble()
+sim_AL<- coef(sim(posLR_AL, n.sims = 10000)) %>% as_tibble()
+sim_SD <- coef(sim(posLR_SD, n.sims = 10000)) %>% as_tibble()
+sim_RV<- coef(sim(posLR_RV, n.sims = 10000)) %>% as_tibble()
+sim_K <- coef(sim(posLR_K, n.sims = 10000)) %>% as_tibble()
+sim_DF<- coef(sim(posLR_DF, n.sims = 10000)) %>% as_tibble()
+sim_LA <- coef(sim(posLR_LA, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "EL" = sim_EL,
+    "SF" = sim_SF,
+    "AL" = sim_AL,
+    "SD" = sim_SD,
+    "RV" = sim_RV,
+    "K" = sim_K,
+    "V" = sim_general,
+    "LA" = sim_LA,
+    "DF" = sim_DF,
+    .id = "party"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(Difference = direction1right - direction1left) %>%
+  dplyr::select(party, Left=direction1left , Right = direction1right, Difference) %>%
+  tidyr::gather(key = "measure", value = "value", -party) %>%
+  mutate(measure = factor(measure, levels=c("Left", "Right", "Difference")),
+         party = factor(party, levels=c("EL", "SF", "AL", "SD", "RV", "K", "V", "LA", "DF"))) %>%
+  group_by(party, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = party)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition")
+```
+
+
+
+# APPENDIX A/Table 6: socio-demographic composition of the sample
+
+```{r}
+table(expData$gender) %>% prop.table() %>% xtable()
+breaks = seq(10, 100, by=10) 
+expData$age %>% cut(breaks, right=FALSE) %>% table() %>% prop.table() %>% xtable()
+table(expData$education) %>% prop.table() %>% xtable()
+table(expData$vote) %>% prop.table() %>% xtable()
+
+```
+
+## APPENDIX C/Figure 4: Treatment effects by socio-demographics
+
+Calculate treatment effect on the left-right for different demographic groups
+```{r}
+# Regress the distance between partner and V on experimental treatment # for women only
+general_female <- expData %>%
+  filter(gender == 1) %>%
+  lm(dist_partner ~ exp1, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for men only
+general_male <- expData %>%
+  filter(gender == 0) %>%
+  lm(dist_partner ~ exp1, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for younger only
+general_young <- expData %>%
+  filter(age < 50) %>%
+  lm(dist_partner ~ exp1, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for older only
+general_old <- expData %>%
+  filter(age >= 50) %>%
+  lm(dist_partner ~ exp1, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for younger only
+general_college <- expData %>%
+  filter(education %in%  c("College (<3 years)",
+           "Bachelors degree (3-4 years)",
+           "Masters degree (5+ years)")) %>%
+  lm(dist_partner ~ exp1, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for older only
+general_no_college <- expData %>%
+  filter(education %in% c("Primary school (<9 years)",
+           "Primary school (9-10 years)",
+           "Secondary/highschool",
+           "Vocational training",
+           "Other")) %>%
+  lm(dist_partner ~ exp1, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for younger only
+general_left <- expData %>%
+  filter(vote %in% c( "Radikale Venstre",
+           "The Alternative",
+           "Social Democrats",
+           "Unity List",
+            "Socialist People's Party")) %>%
+  lm(dist_partner ~ exp1, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for older only
+general_right <- expData %>%
+  filter(vote %in% c("Liberals",
+            "Liberal Alliance",
+           "Dansk Folkeparti",
+            "Conservatives")) %>%
+  lm(dist_partner ~ exp1, data=.)
+
+# Calculate confidence intervals by simulating observations
+sim_female <- coef(sim(general_female, n.sims = 10000)) %>% as_tibble()
+sim_male <- coef(sim(general_male, n.sims = 10000)) %>% as_tibble()
+sim_young <- coef(sim(general_young, n.sims = 10000)) %>% as_tibble()
+sim_old <- coef(sim(general_old, n.sims = 10000)) %>% as_tibble()
+sim_college <- coef(sim(general_college, n.sims = 10000)) %>% as_tibble()
+sim_no_college <- coef(sim(general_no_college, n.sims = 10000)) %>% as_tibble()
+sim_left <- coef(sim(general_left, n.sims = 10000)) %>% as_tibble()
+sim_right <- coef(sim(general_right, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "Female" = sim_female,
+    "Male" = sim_male,
+    "< 50" = sim_young,
+    "> 50" = sim_old,
+    "College" = sim_college,
+    "No college" = sim_no_college,
+    "Left" = sim_left,
+    "Right" = sim_right,
+    .id = "demographic"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(difference = `exp1allerede har dannet` - `exp1umuligt kan danne`) %>%
+  dplyr::select(demographic, formation=`exp1allerede har dannet` , refusal= `exp1umuligt kan danne`, difference) %>%
+  tidyr::gather(key = "measure", value = "value", -demographic) %>%
+  mutate(measure = factor(measure, levels=c("formation", "refusal", "difference"))) %>%
+  group_by(demographic, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup() 
+
+# Arrange the models for a better presentation
+test$demographic <- factor(test$demographic, levels=c("Female", "Male", "< 50", "> 50", "No college", "College", "Left", "Right"))
+
+ggplot(test, aes(x = demographic)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition",
+                         breaks=c("formation", "refusal", "difference"),
+                         labels=c("Coalition formation", "Coalition refusal", "Difference"))
+
+```
+
+# APPENDIX I/Table 2 Average placement of hypothetical party
+
+```{r}
+expData %>%
+  filter(direction == 1) %>% 
+  group_by(exp2) %>%
+  summarise(mean = mean(leftPos, na.rm=TRUE),
+            sd = sd(leftPos, na.rm=TRUE),
+            DK = mean(is.na(leftPos))) %>%
+  ungroup %>%
+  xtable
+
+expData %>%
+  filter(direction == 2 ) %>% 
+  group_by(exp2) %>%
+  summarise(mean = mean(rightPos, na.rm=TRUE),
+            sd = sd(rightPos, na.rm=TRUE),
+            DK = mean(is.na(rightPos))) %>%
+  ungroup %>%
+  xtable
+```
+
+# TABLE 5: Difference in mean perceived distance
+
+```{r}
+# Second experiment
+# Calculate the absolute distance
+expData <- expData %>%
+  mutate(leftDist = abs(leftPos-LR_SD),
+         rightDist = abs(rightPos-LR_SD),
+         hypDist = ifelse(direction == 1, leftDist, rightDist)
+         )
+
+expData %>%
+  filter(direction == 1 & exp2 != "control") %>%
+  t.test(leftDist ~ exp2, data=.)
+
+expData %>%
+  filter(direction == 2 & exp2 != "control") %>%
+  t.test(rightDist ~ exp2, data=.)
+
+expData %>%
+  filter(exp2 != "control") %>%
+  t.test(hypDist ~ exp2, data=.)
+```
+
+# This figure not shown in final article
+```{r}
+### MODEL WITH POSTIONS
+leftModel <- lm(leftPos ~ exp2, data=expData)
+rightModel <- lm(rightPos ~ exp2, data=expData)
+
+sim_left<- coef(sim(leftModel, n.sims = 10000)) %>% as_tibble()
+sim_right <- coef(sim(rightModel, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "Left-wing party" = sim_left,
+    "Right-wing party" = sim_right,
+    .id = "direction"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(Difference = `exp2har et klart oenske om` - `exp2paa ingen maade oensker`) %>%
+  dplyr::select(direction, Invitation=`exp2har et klart oenske om` , Refusal = `exp2paa ingen maade oensker`, Difference) %>%
+  tidyr::gather(key = "measure", value = "value", -direction) %>%
+  mutate(measure = factor(measure, levels=c("Invitation", "Refusal", "Difference"))) %>%
+  group_by(direction, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = direction)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition")
+```
+
+## FIGURE 3 treatment effect on perceived distance btw hypothetical and SD
+
+```{r}
+leftModel <- lm(leftDist ~ exp2, data=expData)
+rightModel <- lm(rightDist ~ exp2, data=expData)
+
+sim_left<- coef(sim(leftModel, n.sims = 10000)) %>% as_tibble()
+sim_right <- coef(sim(rightModel, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "Left-wing party" = sim_left,
+    "Right-wing party" = sim_right,
+    .id = "direction"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(Difference = `exp2har et klart oenske om` - `exp2paa ingen maade oensker`) %>%
+  dplyr::select(direction, Invitation=`exp2har et klart oenske om` , Refusal = `exp2paa ingen maade oensker`, Difference) %>%
+  tidyr::gather(key = "measure", value = "value", -direction) %>%
+  mutate(measure = factor(measure, levels=c("Invitation", "Refusal", "Difference"))) %>%
+  group_by(direction, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = direction)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition")
+```
+
+# APPENDIX J/Figure 8: robustness check
+
+```{r}
+leftModel <- expData %>% filter(LR_SD %in% 3:7) %>% lm(leftDist ~ exp2, data=.)
+rightModel <- expData %>% filter(LR_SD %in% 3:7) %>% lm(rightDist ~ exp2, data=.)
+
+sim_left<- coef(sim(leftModel, n.sims = 10000)) %>% as_tibble()
+sim_right <- coef(sim(rightModel, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "Left-wing party" = sim_left,
+    "Right-wing party" = sim_right,
+    .id = "direction"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(Difference = `exp2har et klart oenske om` - `exp2paa ingen maade oensker`) %>%
+  dplyr::select(direction, Invitation=`exp2har et klart oenske om` , Refusal = `exp2paa ingen maade oensker`, Difference) %>%
+  tidyr::gather(key = "measure", value = "value", -direction) %>%
+  mutate(measure = factor(measure, levels=c("Invitation", "Refusal", "Difference"))) %>%
+  group_by(direction, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+ggplot(test, aes(x = direction)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition")
+```
+
+# APPENDIX H/Figure 7: Treatment effects by socio-demographics
+```{r}
+# Regress the distance between partner and V on experimental treatment # for women only
+exp2_female <- expData %>%
+  filter(gender == 1) %>%
+  lm(hypDist ~ exp2, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for men only
+exp2_male <- expData %>%
+  filter(gender == 0) %>%
+  lm(hypDist ~ exp2, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for younger only
+exp2_young <- expData %>%
+  filter(age < 50) %>%
+  lm(hypDist ~ exp2, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for older only
+exp2_old <- expData %>%
+  filter(age >= 50) %>%
+  lm(hypDist ~ exp2, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for younger only
+exp2_college <- expData %>%
+  filter(education %in%  c("College (<3 years)",
+           "Bachelors degree (3-4 years)",
+           "Masters degree (5+ years)")) %>%
+  lm(hypDist ~ exp2, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for older only
+exp2_no_college <- expData %>%
+  filter(education %in% c("Primary school (<9 years)",
+           "Primary school (9-10 years)",
+           "Secondary/highschool",
+           "Vocational training",
+           "Other")) %>%
+  lm(hypDist ~ exp2, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for younger only
+exp2_left <- expData %>%
+  filter(vote %in% c( "Radikale Venstre",
+           "The Alternative",
+           "Social Democrats",
+           "Unity List",
+            "Socialist People's Party")) %>%
+  lm(hypDist ~ exp2, data=.)
+
+# Regress the distance between partner and V on experimental treatment # for older only
+exp2_right <- expData %>%
+  filter(vote %in% c("Liberals",
+            "Liberal Alliance",
+           "Dansk Folkeparti",
+            "Conservatives")) %>%
+  lm(hypDist ~ exp2, data=.)
+
+# Calculate confidence intervals by simulating observations
+sim_female <- coef(sim(exp2_female, n.sims = 10000)) %>% as_tibble()
+sim_male <- coef(sim(exp2_male, n.sims = 10000)) %>% as_tibble()
+sim_young <- coef(sim(exp2_young, n.sims = 10000)) %>% as_tibble()
+sim_old <- coef(sim(exp2_old, n.sims = 10000)) %>% as_tibble()
+sim_college <- coef(sim(exp2_college, n.sims = 10000)) %>% as_tibble()
+sim_no_college <- coef(sim(exp2_no_college, n.sims = 10000)) %>% as_tibble()
+sim_left <- coef(sim(exp2_left, n.sims = 10000)) %>% as_tibble()
+sim_right <- coef(sim(exp2_right, n.sims = 10000)) %>% as_tibble()
+
+test <-
+# Combine tibbles   
+  bind_rows(
+    "Female" = sim_female,
+    "Male" = sim_male,
+    "< 50" = sim_young,
+    "> 50" = sim_old,
+    "College" = sim_college,
+    "No college" = sim_no_college,
+    "Left" = sim_left,
+    "Right" = sim_right,
+    .id = "demographic"
+  ) %>%
+# Subtract effect of low commitment from effect of high commitment treatment
+  mutate(Difference = `exp2har et klart oenske om` - `exp2paa ingen maade oensker`) %>%
+  dplyr::select(demographic, Invitation=`exp2har et klart oenske om` , Refusal = `exp2paa ingen maade oensker`, Difference) %>%
+  tidyr::gather(key = "measure", value = "value", -demographic) %>%
+  mutate(measure = factor(measure, levels=c("Invitation", "Refusal", "Difference"))) %>%
+  group_by(demographic, measure) %>%
+  summarize(
+    mean = mean(value),
+    sd1 = sd(value),
+    sd2 = sd1 * 2
+  ) %>%
+  ungroup()
+
+# Arrange the models for a better presentation
+test$demographic <- factor(test$demographic, levels=c("Female", "Male", "< 50", "> 50", "No college", "College", "Left", "Right"))
+
+
+ggplot(test, aes(x = demographic)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition")
+
+# Arrange the models for a better presentation
+test$demographic <- factor(test$demographic, levels=c("Female", "Male", "< 50", "> 50", "No college", "College", "Left", "Right"))
+
+ggplot(test, aes(x = demographic)) +
+  theme_bw() +
+  geom_linerange(
+    aes(
+      ymin = mean - sd1,
+      ymax = mean + sd1,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = 1
+  ) + 
+  geom_linerange(
+    aes(
+      ymin = mean - sd2,
+      ymax = mean + sd2,
+      group = measure
+    ),
+    position = position_dodge(width = .5),
+    size = .5
+  ) +
+  geom_point(
+    aes(y = mean, shape = measure),
+    position = position_dodge(width = .5),
+    size = 3
+  ) +
+  geom_hline(
+    aes(yintercept = 0),
+    linetype = "longdash"
+  )+
+  ylab("Treatment effect")+
+  xlab("")+
+  scale_shape_discrete(name="Experimental\ncondition",
+                         breaks=c("formation", "refusal", "difference"),
+                         labels=c("Coalition formation", "Coalition refusal", "Difference"))
+
+```
