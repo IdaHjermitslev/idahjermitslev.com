@@ -19,6 +19,8 @@ navbar:
       href: "https://scholar.google.dk/citations?user=tgz3KD0AAAAJ&hl=da&oi=ao"
     - icon: fa-brands fa-github
       href: "https://github.com/IdaHjermitslev"
+    - icon: fa-brands fa-orcid
+      href: "https://orcid.org/0000-0002-6812-8487"
 include:
   - files/*.R
 output_dir: "docs"
