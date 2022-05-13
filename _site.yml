@@ -8,11 +8,13 @@ navbar:
       href: CurriculumVitae.pdf
     - text: "Research"
       href: research.html
+    - text: "Teaching"
+      href: teaching.html 
   right:
     - icon: fa-envelope
       href: "mailto:ida.hjermitslev@univie.ac.at"
     - icon: fa-university
-      href: "https://polisci.duke.edu/graduate/hire/ida-hjermitslev"
+      href: "https://staatswissenschaft.univie.ac.at/en/team/scientific-staff/ida-hjermitslev/"
     - icon: fa-google
       href: "https://scholar.google.dk/citations?user=tgz3KD0AAAAJ&hl=da&oi=ao"
     - icon: fa-github

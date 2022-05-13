@@ -1,0 +1,15 @@
+---
+title: "Teaching"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### BAK 4: Quantitative Methods of Empirical Social Research (Winter 2020)
+The aim of the course is to equip students with the basic applied skills for easy data projects. The content of the course includes basic descriptive and inferential statistics, as well as the graphic representation of results. The core focus of this course will be hands-on and practical. Students will learn the basic “tools” to conduct quantitative data analysis using the programming language R. By the end of the course, students should be able to describe and manipulate a dataset and conduct basic inferential analysis R.
+
+#### BAK 13: State Activity, Policy and Governance Analyses: Party Competition in Advanced Democracies (Summer 2021)
+
+#### M2: Research Methods for Political Science (Summer 2021)
