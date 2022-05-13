@@ -7,11 +7,15 @@ output: html_document
 ![](Ida-small.jpg)
 </span>
 
-Welcome to my website!
+Welcome to my website! My name is Ida Hjermitslev and I am a university assistant/postdoctoral researcher at the Department of Government, University of Vienna, Austria. 
 
-My name is Ida Hjermitslev and I am a university assistant/postdoctoral researcher at the Department of Government, University of Vienna, Austria. My research focuses on party competition and electoral behavior from a comparative perspective. I am broadly interested in representational linkages under parliamentary government, and especially interested in linkages that affect voters' political ideology and belief systems. I study questions such as how voters are perceiving and responding to elite cooperation and coalition formation.
+My research focuses on party competition and electoral behavior from a comparative perspective. I am broadly interested in representational linkages under parliamentary government, and especially interested in how the complexities of coalition politics affect these linkages incl. accountability, ideology, and satisfaction with democracy. I study questions such as:
+
+ - How voters are perceiving compromise and party cooperation?
+ - Can hold all the (responsible) parties accountable? 
+ - Does the division of labor within coalitions shape voter expectations?
 
 I earned my PhD in Political Science from Duke University, USA, in the summer 2020. My dissertation research explored the effects of coalition patterns on voters' perceptions of party positions and policy space. During my graduate education, I have also studied at the University of Copenhagen, UCLA and Aarhus University.
 
-During this winter term 2020, I will be teaching Quantitative Methods of Empirical Social Science 
+Here on this website you can find links to my published articles, replication and data files, and the syllabi for the classes I teach. Feel free to contact me if you have any questions or suggestions.
 
