@@ -12,7 +12,9 @@ Welcome to my website! My name is Ida Hjermitslev and I am a university assistan
 My research focuses on party competition and electoral behavior from a comparative perspective. I am broadly interested in representational linkages under parliamentary government, and especially interested in how the complexities of coalition politics affect these linkages incl. accountability, ideology, and satisfaction with democracy. I study questions such as:
 
 *How are voters perceiving compromise and party cooperation?*
-*Can hold all the (responsible) parties accountable?*
+
+*Can voters hold all the (responsible) parties accountable?*
+
 *Does the division of labor within coalitions shape voter expectations?*
 
 I earned my PhD in Political Science from Duke University, USA, in the summer 2020. My dissertation research explored the effects of coalition patterns on voters' perceptions of party positions and policy space. During my graduate education, I have also studied at the University of Copenhagen, UCLA and Aarhus University.
