@@ -7,9 +7,42 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#### BAK 4: Quantitative Methods of Empirical Social Research (Winter 2020)
+#### Quantitative Methods of Empirical Social Research 
 The aim of the course is to equip students with the basic applied skills for easy data projects. The content of the course includes basic descriptive and inferential statistics, as well as the graphic representation of results. The core focus of this course will be hands-on and practical. Students will learn the basic “tools” to conduct quantitative data analysis using the programming language R. By the end of the course, students should be able to describe and manipulate a dataset and conduct basic inferential analysis R.
 
-#### BAK 13: State Activity, Policy and Governance Analyses: Party Competition in Advanced Democracies (Summer 2021)
+[Syllabus](files/210015_syllabus_winter2021.pdf)
 
-#### M2: Research Methods for Political Science (Summer 2021)
+#### State Activity, Policy and Governance Analyses: Party Competition in Advanced Democracies 
+
+This course is intended for bachelor level students and serves as an introduction to concepts and theories employed in the comparative study of political parties and electoral competition. Over the 13 weeks of this course, we will engage in the theoretical discussions about how parties strategically choose among policy appeals (positions, emphasis and competence) and how that will likely impact their electoral payoffs.
+
+The course is also designed to help you practice you English academic writing and become more familiar with the initial stages of research e.g. reading for new ideas, reviewing literature, synthesizing arguments, and coming up with interesting research questions. For this purpose we will have two pop-up workshops organized by the center for teaching and learning.
+
+
+[Syllabus](files/Syllabus_SS22_PartyCompAdvDem.pdf)
+
+#### Comparative Political Analysis
+
+This course provides an introduction to theoretical and empirical concepts of comparative politics.
+
+We will cover the following topics:
+
+- Methods in Comparative Politics
+- Regime types (democracies and autocracies)
+- Democratic theory and types of democracies
+- Parties and party systems
+- Elections and electoral systems
+- The Legislature
+- The Executive
+- The Judiciary
+
+[Syllabus](files/Syllabus_WS21_ComparativePolitics.pdf)
+
+#### Research Methods for Political Science - Quantitative
+
+The course deals with the development of a research design. For this purpose all key concepts and steps of the research design are discussed: formulation of a research question, literature review, theory, hypothesis definition and testing, concept definitions and operationalization, case selection and empirical verification.
+
+Some of the questions that will be discussed include the following: How do I find a research question? How to formulate a research question? What elements should a quantitative research design include? How can a research question be adequately justified theoretically?
+The seminar also discusses statistical methods that are useful for answering the research question and to verify the hypotheses formulated. The empirical analyses are carried out using R, a free statistical program available for download.
+
+[Syllabus](files/MA2 syllabus ss2022.pdf)
