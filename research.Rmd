@@ -28,7 +28,7 @@ European mainstream right parties are increasingly choosing to include radical r
  * [Denmark 1994-2015](files/ResultsDK.R)
   
 
-#### Hjermitslev, Ida B. (2022) “Collaboration or competition? Experimental evidence for coalition heuristics”. *European Journal of Political Research*
+#### Hjermitslev, Ida B. (2022) [“Collaboration or competition? Experimental evidence for coalition heuristics”.](https://ejpr.onlinelibrary.wiley.com/doi/pdfdirect/10.1111/1475-6765.12537) *European Journal of Political Research*
 
 Does coalition formation have a causal effect on the perceived ideological distance between the coalition members? Observational research shows that voters typically think of parties that form a coalition government as more ideologically similar than those that do not, holding everything else constant. Their many qualities aside, the existing studies are not able to establish a causal relationship between coalition formation and changing perceptions. It is quite possible that voters are reacting to concurrent changes in parties' stated policy and not the coalition information itself. In this paper, I present two survey experiments that isolates the difference between telling voters that two parties can cooperate and telling them that they cannot. In both experiments, I find evidence supporting the theory of coalition heuristics.
 
@@ -42,3 +42,18 @@ Does coalition formation have a causal effect on the perceived ideological dista
  
  * [Empirical analysis](files/ResultsDK2018.Rmd)
   
+#### Hjermitslev, Ida B. (2022) [Between cabinet membership and opposition: Commitment and responsibility of support parties](https://journals.sagepub.com/doi/pdf/10.1177/13540688221104557) *Party Politics*
+
+Existing research suggests that government participation is crucial for how voters evaluate party performance and how they
+cast their votes. However, in real life the distinction between government and opposition is not as straight-forward as one
+would think. Minority governments often enjoy the legislative support of external support parties, which play an ambiguous
+role in politics: while they are formally part of the opposition, they are simultaneously committed to keeping the government in office and passing its bills. How do voters evaluate parties that support a minority government? Will they
+respond to different frames about the significance of the commitment that support parties have made to government policy
+and survival? In a survey experiment, I test whether framing a written agreement as effective will cause voters to attribute
+more or less responsibility to the support parties and find that they respond to different frames by altering their perceptions of the importance of the agreement, but not their responsibility attribution.
+
+* [Survey Questionnaire](files/QuestionnaireDK2020.pdf)
+* [Survey Data](files/MinGovData.dta)
+* [Data Manipulation](files/CleanDataPP2022.R) 
+* [Balance Test](files/BalancetestPP2022.R)
+* [Empirical Analysis](files/ResultsPP2022.R)
