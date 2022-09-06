@@ -41,6 +41,8 @@ Does coalition formation have a causal effect on the perceived ideological dista
  * [Data manipulation](files/CleanDK2018.R)
  
  * [Empirical analysis](files/ResultsDK2018.Rmd)
+ 
+ * [Supplemental Appendix](files/ejpr12537-sup-0001-onlineappendix.pdf)
   
 #### Hjermitslev, Ida B. (2022) [Between cabinet membership and opposition: Commitment and responsibility of support parties](https://journals.sagepub.com/doi/pdf/10.1177/13540688221104557) *Party Politics*
 
@@ -57,3 +59,4 @@ more or less responsibility to the support parties and find that they respond to
 * [Data Manipulation](files/CleanDataPP2022.R) 
 * [Balance Test](files/BalancetestPP2022.R)
 * [Empirical Analysis](files/ResultsPP2022.R)
+* [Supplemental Appendix](files/pp_appendix.pdf)
