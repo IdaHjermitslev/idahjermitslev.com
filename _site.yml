@@ -5,7 +5,7 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Resumé"
-      href: CurriculumVitae.pdf
+      href: files/CurriculumVitae.pdf
     - text: "Research"
       href: research.html
     - text: "Teaching"
