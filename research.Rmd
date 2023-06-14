@@ -61,7 +61,7 @@ more or less responsibility to the support parties and find that they respond to
 * [Empirical Analysis](files/ResultsPP2022.R)
 * [Supplemental Appendix](files/pp_appendix.pdf)
 
-#### Hjermitslev, Ida B. and Christopher D. Johnston (2022) [Mixed evidence for a relationship of cognitive fatigue to political engagement](https://journals.sagepub.com/doi/pdf/10.1177/13540688221104557) *Electoral Studies*
+#### Hjermitslev, Ida B. and Christopher D. Johnston (2023) [Mixed evidence for a relationship of cognitive fatigue to political engagement](https://journals.sagepub.com/doi/pdf/10.1177/13540688221104557) *Electoral Studies*
 
 Daily cognitive fatigue is widespread, yet we are still learning about its influence on political behavior. Existing research suggests fatigue will reduce consumption of politics at the margin. Moreover, when fatigued individuals do engage with political material, they should be more likely to choose content and decision rules that require minimal effort. We find mixed empirical evidence for these claims. In observational data, we find a negative relationship between fatigue and engagement, on average, but the coefficients are typically small and statistically insignificant and we find substantial variation across different measures of fatigue. In three experiments, we find mixed evidence that manipulated fatigue reduces the demand for political content over sports and other non-political entertainment. In a fourth experiment, we find no evidence that manipulated fatigue shapes heuristic versus systematic processing. We discuss the limitations of our study, its relationship to existing work, and avenues for future research.
 
