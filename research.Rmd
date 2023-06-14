@@ -28,7 +28,7 @@ European mainstream right parties are increasingly choosing to include radical r
  * [Denmark 1994-2015](files/ResultsDK.R)
   
 
-#### Hjermitslev, Ida B. (2022) [“Collaboration or competition? Experimental evidence for coalition heuristics”.](https://ejpr.onlinelibrary.wiley.com/doi/pdfdirect/10.1111/1475-6765.12537) *European Journal of Political Research*
+#### Hjermitslev, Ida B. (2023) [“Collaboration or competition? Experimental evidence for coalition heuristics”.](https://ejpr.onlinelibrary.wiley.com/doi/pdfdirect/10.1111/1475-6765.12537) *European Journal of Political Research* 62 (1), 326-337
 
 Does coalition formation have a causal effect on the perceived ideological distance between the coalition members? Observational research shows that voters typically think of parties that form a coalition government as more ideologically similar than those that do not, holding everything else constant. Their many qualities aside, the existing studies are not able to establish a causal relationship between coalition formation and changing perceptions. It is quite possible that voters are reacting to concurrent changes in parties' stated policy and not the coalition information itself. In this paper, I present two survey experiments that isolates the difference between telling voters that two parties can cooperate and telling them that they cannot. In both experiments, I find evidence supporting the theory of coalition heuristics.
 
@@ -60,3 +60,21 @@ more or less responsibility to the support parties and find that they respond to
 * [Balance Test](files/BalancetestPP2022.R)
 * [Empirical Analysis](files/ResultsPP2022.R)
 * [Supplemental Appendix](files/pp_appendix.pdf)
+
+#### Hjermitslev, Ida B. and Christopher D. Johnston (2022) [Mixed evidence for a relationship of cognitive fatigue to political engagement](https://journals.sagepub.com/doi/pdf/10.1177/13540688221104557) *Electoral Studies*
+
+Daily cognitive fatigue is widespread, yet we are still learning about its influence on political behavior. Existing research suggests fatigue will reduce consumption of politics at the margin. Moreover, when fatigued individuals do engage with political material, they should be more likely to choose content and decision rules that require minimal effort. We find mixed empirical evidence for these claims. In observational data, we find a negative relationship between fatigue and engagement, on average, but the coefficients are typically small and statistically insignificant and we find substantial variation across different measures of fatigue. In three experiments, we find mixed evidence that manipulated fatigue reduces the demand for political content over sports and other non-political entertainment. In a fourth experiment, we find no evidence that manipulated fatigue shapes heuristic versus systematic processing. We discuss the limitations of our study, its relationship to existing work, and avenues for future research.
+
+* [README](files/README.docx)
+* [Data Folder](files/Data.zip)
+* [Reproduction Folder](files/Reproduction.zip) 
+
+#### Hjermitslev, Ida B. and Svenja Krauss (2023) Perceptual Consequences of Portfolios: How Allocation Affects Left-Right Placement *Government and Opposition*
+
+Recent research suggests that party leaders can strategically impact the perceived left-right position of their parties by changing their selective emphasis on certain issues. We suggest that a party's ideological image can also be altered by the portfolio allocation of the coalition government the party participates in. By controlling a portfolio, the party will have a more direct influence on the related issue and will frequently communicate the party's issue position publicly thereby cultivating the equivalent to a perception of strong emphasis on the related issue. We run a cross-national party-level analysis showing that portfolio allocation matters with regard to the importance of the sub-dimensions for the general left-right dimension. In particular, the influence of socio-cultural stances depends on the share of socio-cultural portfolios. In addition, we show that the mechanism does not apply at the beginning of the governments tenure, but only after a year or longer in office.
+
+* [Voter Perception Data](files/cheseesres.xlsx)
+* [Portfolio Data](files/portfoliofullname.xlsx)
+* [Italian Data](files/Citaly.xlsx) 
+* [Data Manipulation](files/Merge_cheseesres_and_portfolio_FEB23.R)
+* [Empirical Analysis](files/replication.do)
