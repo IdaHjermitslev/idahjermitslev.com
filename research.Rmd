@@ -78,3 +78,7 @@ Recent research suggests that party leaders can strategically impact the perceiv
 * [Italian Data](files/Citaly.xlsx) 
 * [Data Manipulation](files/Merge_cheseesres_and_portfolio_FEB23.R)
 * [Empirical Analysis](files/replication.do)
+
+#### Green-Pedersen, Christoffer and Hjermitslev, Ida B. (2023) “A compromising mindset? How citizens evaluate the trade-offs in coalition politics.” *European Journal of Political Research*
+
+#### Hjermitslev, Ida B. (2023) “Punishing the Pseudo-opposition: Accountability under a minority government” *European Journal of Political Research*
